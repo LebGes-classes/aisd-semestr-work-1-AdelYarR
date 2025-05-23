@@ -21,15 +21,15 @@ int main()
     rbtree.printTree();
 
     // Удаляем элементы из дерева
-    std::cout << "After deleting 18:" << std::endl;
+    std::cout << "Deleted 18:" << std::endl;
     rbtree.remove(18);
     rbtree.printTree();
 
-    std::cout << "After deleting 11:" << std::endl;
+    std::cout << "Deleted 11:" << std::endl;
     rbtree.remove(11);
     rbtree.printTree();
 
-    std::cout << "After deleting 3:" << std::endl;
+    std::cout << "Deleted 3:" << std::endl;
     rbtree.remove(3);
     rbtree.printTree();
 }

@@ -8,6 +8,7 @@ class RedBlackTree
 public:
 	RedBlackTree();
 	RedBlackTree(Node* _root);
+	~RedBlackTree();
 
 	void insert(int key);
 	void remove(int key);
@@ -17,4 +18,5 @@ public:
 	void leftRotate(Node* t);
 	void rightRotate(Node* t);
 	void printTree();
+	void deleteTree(Node* t);
 };

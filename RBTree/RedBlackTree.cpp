@@ -5,6 +5,11 @@ RedBlackTree::RedBlackTree() : root(nullptr) {}
 
 RedBlackTree::RedBlackTree(Node* _root) : root(_root) {}
 
+RedBlackTree::~RedBlackTree()
+{
+    deleteTree(root);
+}
+
 void RedBlackTree::insert(int key)
 {
     Node* t = new Node(key);
@@ -235,6 +240,7 @@ void RedBlackTree::remove(int key)
         r->setColor(q->getColor());
     }
 
+    delete q;
     // Если мы удалили чёрный узел, то чёрная высота поддерева уменьшилась на единицу - нужно сбалансировать
     if (originalColor == Color::Black && p != nullptr)
     {
@@ -400,22 +406,29 @@ void RedBlackTree::rightRotate(Node* t)
     t->setParent(child);
 }
 
-void printHelper(Node* root, std::string indent, bool isLast)
+void printNode(Node* node, bool isRight, std::string otstyp)
 {
-    if (root != nullptr) {
-        std::cout << indent;
-        if (isLast) {
-            std::cout << "R----";
-            indent += "   ";
+    if (node != nullptr)
+    {
+        std::cout << otstyp;
+        otstyp += "   ";
+        if (node->getParent() == nullptr)
+        {
+            std::cout << "Root: ";
         }
-        else {
-            std::cout << "L----";
-            indent += "|  ";
+        else
+        {
+            if (isRight) {
+                std::cout << "Right: ";
+            }
+            else {
+                std::cout << "Left: ";
+            }
         }
-        std::string currColor = (root->getColor() == Color::Red) ? "RED" : "BLACK";
-        std::cout << root->getKey() << "(" << currColor << ")" << std::endl;
-        printHelper(root->getLeft(), indent, false);
-        printHelper(root->getRight(), indent, true);
+        std::string currColor = (node->getColor() == Color::Black) ? "Black" : "Red";
+        std::cout << node->getKey() << "(" << currColor << ")" << std::endl;
+        printNode(node->getLeft(), false, otstyp);
+        printNode(node->getRight(), true, otstyp);
     }
 }
 
@@ -423,12 +436,12 @@ void RedBlackTree::printTree()
 {
     if (root == nullptr)
     {
-        std::cout << "Tree is empty." << std::endl;
+        std::cout << "Tree doesn't have any nodes" << std::endl;
     }
     else
     {
-        std::cout << "Red-Black Tree:" << std::endl;
-        printHelper(root, "", true);
+        std::cout << "RedBlackTree:" << std::endl;
+        printNode(root, true, "");
     }
 }
 
@@ -454,4 +467,15 @@ bool RedBlackTree::search(int key)
     }
 
     return false;
+}
+
+void RedBlackTree::deleteTree(Node* node)
+{
+    if (node != nullptr)
+    {
+        deleteTree(node->getLeft());
+        deleteTree(node->getRight());
+        delete node;
+    }
+    root = nullptr;
 }
